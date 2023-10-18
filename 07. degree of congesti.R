@@ -143,14 +143,14 @@ total_mean1 <- (s1800_mean$s1800_mean + s1830_mean$s1830_mean + s1900_mean$s1900
 
 print(total_mean1)
 
-#01. 기술통계분석 결과
+   #01. 기술통계분석 결과
 summary(congestion1$s1800)
 summary(congestion1$s1830)
 summary(congestion1$s1900)
 summary(congestion1$s1930)
 summary(congestion1$s2000)
 
-#02. 가장 높은 시간대의 막대그래프 확인하기기
+  #02. 가장 높은 시간대의 막대그래프 확인하기기
 
   congestion1 %>%
     summarise(s1800_mean = mean (s1800, na.rm = TRUE))
@@ -172,7 +172,7 @@ summary(congestion1$s2000)
   name = c('s1800','s1830','s1900','s1930','s2000')
   barplot(v,names=name) # barplot(v~name) 
   
-#03. 평균혼잡동 상위 4개 호선의 역별 기여도
+   #03. 평균혼잡동 상위 4개 호선의 역별 기여도
   library(dplyr)
   
   # 추가 열을 비교하기 위해 필요한 열 이름을 나열
