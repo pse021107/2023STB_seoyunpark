@@ -46,20 +46,23 @@ congestion1 %>%
   summarise(line_mean = mean(day_mean))
 
 # 3. 지하철 호선별 출근시간(07:00 ~ 09:00) 대의 평균 혼잡도
-congestion1 %>%
-  summarise(s0700_mean = mean (s0700, na.rm = TRUE))
+s0700_mean <- congestion1 %>%
+  summarise(s0700_mean = mean(s0700, na.rm = TRUE))
 
-congestion1 %>%
-  summarise(s0730_mean = mean (s0730, na.rm = TRUE))
+s0730_mean <- congestion1 %>%
+  summarise(s0730_mean = mean(s0730, na.rm = TRUE))
 
-congestion1 %>%
-  summarise(s0800_mean = mean (s0800, na.rm = TRUE))
+s0800_mean <- congestion1 %>%
+  summarise(s0800_mean = mean(s0800, na.rm = TRUE))
 
-congestion1 %>%
-  summarise(s0830_mean = mean (s0830, na.rm = TRUE))
+s0830_mean <- congestion1 %>%
+  summarise(s0830_mean = mean(s0830, na.rm = TRUE))
 
-congestion1 %>%
-  summarise(s0900_mean = mean (s0900, na.rm = TRUE))
+s0900_mean <- congestion1 %>%
+  summarise(s0900_mean = mean(s0900, na.rm = TRUE))
+
+total_mean <- (s0700_mean + s0730_mean + s0800_mean + s0830_mean + s0900_mean) / 5
+print(total_mean)
 
 #01. 기술통계분석
 summary(congestion1$s0700)
@@ -125,6 +128,21 @@ congestion1 %>%
 
 
 # 5. 지하철 호선별 퇴근시간(18:00 ~ 20:00) 대의 평균 혼잡도
+s1800_mean <-
+  congestion1 %>% summarise(s1800_mean = mean(s1800, na.rm = TRUE))
+s1830_mean <- 
+  congestion1 %>% summarise(s1830_mean = mean(s1830, na.rm = TRUE))
+s1900_mean <-
+  congestion1 %>% summarise(s1900_mean = mean(s1900, na.rm = TRUE))
+s1930_mean <-
+  congestion1 %>% summarise(s1930_mean = mean(s1930, na.rm = TRUE))
+s2000_mean <-
+  congestion1 %>% summarise(s2000_mean = mean(s2000, na.rm = TRUE))
+
+total_mean1 <- (s1800_mean$s1800_mean + s1830_mean$s1830_mean + s1900_mean$s1900_mean + s1930_mean$s1930_mean + s2000_mean$s2000_mean) / 5
+
+print(total_mean1)
+
 #01. 기술통계분석 결과
 summary(congestion1$s1800)
 summary(congestion1$s1830)
