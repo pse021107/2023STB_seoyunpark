@@ -57,10 +57,15 @@ passenger10
 ggplot(data=passenger10, aes(x=reorder(Station, m), y=m))+geom_col()+coord_flip()
 
 # 5.일별 전체 승객 분석
-subway %>%group_by(Date) %>%  summarise(total=sum(total_passenger)) %>%arrange(desc(total)) %>%head(3)
+subway %>%
+  group_by(Date) %>%  
+  summarise(total=sum(total_passenger)) %>%arrange(desc(total)) %>%head(3)
 
 # 6. 특정 line 분석(1호선)
-subway %>%filter(Line=="1호선") %>%filter(total_passenger==max(total_passenger)) %>%select(Date, Station, on_board, getting_off, total_passenger)
+subway %>%
+  filter(Line=="1호선") %>%
+  filter(total_passenger==max(total_passenger)) %>%
+  select(Date, Station, on_board, getting_off, total_passenger)
 
 # 7. 노선별 전체 승객 비율 비교
 line_pct<-subway %>%
