@@ -86,7 +86,7 @@ table(foodshop$district)
 # 최종 데이터 확인
 str(foodshop)
 
-# 새로 생선된 인허가년도, 폐업년도의 문자형을 정수형 데이터로 변경
+# 새로 생성된 인허가년도, 폐업년도의 문자형을 정수형 데이터로 변경
 foodshop$open_year<-as.integer(foodshop$open_year)
 foodshop$close_year<-as.integer(foodshop$close_year)
 
@@ -130,7 +130,7 @@ foodshop%>%
   arrange(desc(n)) %>%  
   head(5)
 
-# 5. 전체 음식점의 업종과 폐업 비율율
+# 5. 전체 음식점의 영업과 폐업 비율
 foodshop%>%  
   filter(!is.na(open_date)&!is.na(type)&!is.na(district)) %>% 
   #결측치제외
