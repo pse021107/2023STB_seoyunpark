@@ -41,7 +41,7 @@ foodshop<-foodshop%>%
 # 처리 결과 확인
 table(foodshop$status)
 
-#2. type 변수
+#2. type 변수(업종 변수 확인)
 table(foodshop$type)
 
 # 주소 데이터 밀린것이 없는 것으로 판단하여, 제거할 것 없다
@@ -57,7 +57,8 @@ table(is.na(foodshop$open_date))
 
 # 결측치 제거 
 #na값제외
-foodshop<-foodshop%>%filter(open_date!= '') %>%
+foodshop<-foodshop%>%
+  filter(open_date!= '') %>%
   select(name,type,status,open_date,close_date,address)
 
 # 결측치 제거 후 최종 확인
@@ -70,29 +71,20 @@ foodshop$open_year<-substr(foodshop$open_date,1,4)
 # 폐업 일자 데이터 이상치 확인
 range(foodshop$close_date, na.rm = T)
 
-# 폐업 일자 데이터 결측치 확인
-# 결측치 확인
-table(is.na(foodshop$close_date))
-
-# 폐업일자자 결측치 제거
-foodshop<-foodshop%>%filter(close_date!= '') %>%
-  select(name,type,status,open_date,close_date,address)
-
-# 폐업일자의 결측치 제거 후 최종 확인
-range(foodshop$close_date, na.rm = T)
-table(is.na(foodshop$close_date))
+# 페업 일자 데이터 결측치 확인 
+table(is.na(foodshop$open_date))
 
 # 폐업년도만 분리해서 변수 생성
 foodshop$close_year<-substr(foodshop$close_date,1,4)
 
 ####
 # 시만 분리
-foodshop$district<-substr(foodshop$address,4,8)
+foodshop$district<-substr(foodshop$address,5,7)
 # 이상치 확인
 table(foodshop$district)
 # 이상하게 분리된 데이터를 제외
 foodshop$district<-
-  ifelse(foodshop$district%in%c("도 제","시 망","시 수","시 영","시 원","시 일"),NA,foodshop$district)
+  ifelse(foodshop$district%in%c("시 강","시 계","시 관","시 금","시 남","시 노","시 마","시 미","시 서","시 용","시 은","106","회","번지"),NA,foodshop$district)
 # 제외 후 데이터 확인
 table(foodshop$district)
 # 최종 데이터 확인
@@ -107,15 +99,16 @@ foodshop$close_year<-as.integer(foodshop$close_year)
 # 총 15가지 분석
 # 1. 가장 오래 영업중인 음식점
 foodshop%>%  
-  filter(!is.na(open_date)&status=="영업") %>% #결측치제거, 영업데이터추출
-  filter(open_date==min(open_date)) %>% #개업일이가장빠른데이터추출
+  filter(!is.na(open_date)&status=="영업")%>%  #결측치제거, 영업데이터추출
+  filter(open_date==min(open_date))%>%  #개업일이가장빠른데이터추출
   select(name, type, open_date, address)
 
 # 2. 주요 업종별로 가장 오래 영업중인 음식점
 foodshop%>%  
   filter(!is.na(open_date)&status=="영업") %>% #결측치제거, 영업데이터추출
   filter(type%in%c("기타","경양식","분식","일식","중국식","호프/통닭"))%>%  
-  group_by(type) %>%#업종별분류filter(open_date==min(open_date)) %>% #개업일이가장빠른데이터추출
+  group_by(type) %>%#업종별분류
+  filter(open_date==min(open_date)) %>% #개업일이가장빠른데이터추출
   select(name, type, open_date, address)
 
 # 3. 업종별 개업 비율
@@ -189,7 +182,7 @@ close_trend<-foodshop%>%
   group_by(close_year) %>%  summarise(close_n=n())
 #open_trend 구조
 str(close_trend)
-#연도별개업음식점수막대그래프
+#연도별폐업음식점수막대그래프
 ggplot(data=close_trend,aes(x=close_year,y=close_n))+  geom_col()+  xlab("연도") + ylab("폐업수")
 
 # 11. 개업과 폐업 음식점 통합 그래프
