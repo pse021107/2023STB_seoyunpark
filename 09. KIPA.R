@@ -77,6 +77,13 @@ mental%>%
   mutate(total=sum(n), #age변수의 빈도 총계
          pct=round(n/total*100,1)) #age변수의 범주별 비율
 
+# 퀴즈1 연령대별로 남녀를 분류해서 평균이 높은 4개
+mental %>%
+  group_by(age,sex)%>%
+  summarise(mean_satisfaction=mean(satisfaction)) %>%
+  
+arrange(desc(mean_satisfaction))
+
 # 3. (교차분석) 성별과 연령대의 교차분석
 table(mental$sex, mental$age)
 round(prop.table(table(mental$sex, mental$age),1)*100,1)#교차백분율계산
@@ -136,4 +143,3 @@ ggplot(data=area_satisfaction, aes(x=reorder(area,m),y=m))+
   xlab("지역")+
   ylab("만족도")+
   coord_flip()
-
